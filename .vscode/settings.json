@@ -1,0 +1,17 @@
+{
+    "cSpell.words": [
+        "astype",
+        "dataframe",
+        "fastapi",
+        "fliplr",
+        "flipud",
+        "fromarray",
+        "imgsz",
+        "iterrows",
+        "loguru",
+        "ultralytics",
+        "xyxy",
+        "YOLO",
+        "yolov"
+    ]
+}
