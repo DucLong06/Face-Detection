@@ -4,8 +4,9 @@ from fastapi.responses import RedirectResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import HTTPException
 from fastapi import FastAPI, File, status
+import uvicorn
 
-from src.my_yolo import (
+from my_yolo import (
     convert_bytes_to_image,
     convert_image_to_bytes,
     detect_faces_in_image,
@@ -23,12 +24,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.get("/", include_in_schema=False)
-async def redirect_to_docs():
-    """Redirect root endpoint to API documentation"""
-    return RedirectResponse("/docs")
 
 
 @app.get('/health', status_code=status.HTTP_200_OK, tags=["System"])
@@ -96,3 +91,6 @@ async def detect_faces_image(file: bytes = File(..., description="Image file to 
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=error_msg
         )
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -1,0 +1,13 @@
+image:
+  repository: longhd06/face-detection
+  tag: "0.0.1"
+  pullPolicy: Always
+
+service:
+  type: NodePort
+  targetPort: 8000
+  port: 8000
+
+ingress:
+  enabled: true
+  host: 34.29.36.205.nip.io
