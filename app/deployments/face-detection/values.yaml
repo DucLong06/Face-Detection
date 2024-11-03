@@ -10,6 +10,4 @@ service:
 
 ingress:
   enabled: true
-  host: app.local
-
-namespace: model-serving
+  host: face-detection.local

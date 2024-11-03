@@ -12,7 +12,6 @@ Key Features:
   - Log management (ELK Stack)
   - Request tracing (Jaeger)
 - **Automated CI/CD**: Jenkins pipeline with testing and deployment
-- **Security**: RBAC, network policies, secret management
 
 ### System Architecture
 The system architecture diagram below illustrates the main components and their interactions:

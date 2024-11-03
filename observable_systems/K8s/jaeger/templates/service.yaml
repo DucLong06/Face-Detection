@@ -15,4 +15,4 @@ spec:
       port: 16686
       protocol: TCP
       targetPort: 16686
-  type: ClusterIP  
+  type: LoadBalancer  

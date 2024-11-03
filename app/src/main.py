@@ -24,7 +24,7 @@ from opentelemetry.sdk.trace.sampling import ALWAYS_ON
 
 
 # Get configuration from environment variables
-JAEGER_HOST = os.getenv("JAEGER_HOST", "localhost")
+JAEGER_HOST = os.getenv("JAEGER_HOST", "jaeger-jaeger.tracing.svc.cluster.local")
 JAEGER_PORT = int(os.getenv("JAEGER_PORT", "6831"))
 
 set_tracer_provider(
@@ -36,6 +36,7 @@ set_tracer_provider(
 jaeger_exporter = JaegerExporter(
     agent_host_name=JAEGER_HOST,
     agent_port=JAEGER_PORT,
+    transport_format="thrift-compact"
 )
 span_processor = BatchSpanProcessor(jaeger_exporter)
 get_tracer_provider().add_span_processor(span_processor)
