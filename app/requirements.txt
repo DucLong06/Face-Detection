@@ -4,3 +4,7 @@ gunicorn==23.0.0
 fastapi==0.115.3
 loguru==0.7.2
 python-multipart==0.0.12
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-instrumentation-fastapi
+opentelemetry-exporter-jaeger
