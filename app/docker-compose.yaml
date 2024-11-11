@@ -1,6 +1,8 @@
 services:
     face_detection:
-        build: .
+        build:
+            context: .
+            dockerfile: dockerfile.dev 
         restart: "always"
         volumes:
             - .:/app
