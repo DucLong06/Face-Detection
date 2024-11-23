@@ -28,17 +28,13 @@ pipeline {
             }
         }
         
-        stage('Build and Push Docker Image') {
+        stage('Build') {
             steps {
                 script {
-                  dir('app') {
-                    echo 'Building Docker image...'
-                    dockerImage = docker.build ("${REGISTRY}:$BUILD_NUMBER","-f dockerfile .")
-                  }
-               
-                    // Push Docker image
-                    echo 'Pushing Docker image to registry...'
-                    docker.withRegistry('', REGISTRY_CREDENTIAL) {
+                    echo 'Building image for deployment..'
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                    echo 'Pushing image to dockerhub..'
+                    docker.withRegistry( '', registryCredential ) {
                         dockerImage.push()
                         dockerImage.push('latest')
                     }
