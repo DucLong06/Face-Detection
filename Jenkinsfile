@@ -10,7 +10,7 @@ pipeline {
         REGISTRY = 'longhd06/face-detection'
         REGISTRY_CREDENTIAL = 'dockerhub'
         DOCKER_CONTEXT= '.'
-        DOCKER_FILE = 'app/'
+        DOCKER_FILE = 'Dockerfile'
         HELM_FACE_DETECTION_PATH = 'app/deployments/face-detection'
         HELM_NGINX_PATH = 'app/deployments/nginx-ingress'
     }
@@ -34,9 +34,10 @@ pipeline {
                     sh 'pwd' 
                     sh 'ls -la'
                     echo 'Building image for deployment..'
-                    dockerImage = docker.build("${REGISTRY}:${BUILD_NUMBER}", "-f ${DOCKER_FILE}/Dockerfile ${DOCKER_CONTEXT}")
-                    echo 'Pushing image to dockerhub..'
-                    docker.withRegistry( '', registryCredential ) {
+                    def buildCmd = "-f ${DOCKER_FILE} ${DOCKER_CONTEXT}"
+                    echo "Docker build command: docker build -t ${REGISTRY}:${BUILD_NUMBER} ${buildCmd}"
+                    dockerImage = docker.build("${REGISTRY}:${BUILD_NUMBER}", "-f ${DOCKER_FILE} ${DOCKER_CONTEXT}")
+                    docker.withRegistry( '', REGISTRY_CREDENTIAL ) {
                         dockerImage.push()
                         dockerImage.push('latest')
                     }
