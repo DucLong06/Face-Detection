@@ -7,11 +7,15 @@
         "flipud",
         "fromarray",
         "imgsz",
+        "Instrumentor",
         "iterrows",
         "loguru",
+        "opentelemetry",
+        "semconv",
         "ultralytics",
+        "uvicorn",
         "xyxy",
         "YOLO",
         "yolov"
-    ]
+    ],
 }
