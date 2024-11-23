@@ -53,6 +53,7 @@
         image: "{{ default_container_image }}"
         state: started
         privileged: true
+        restart: unless-stopped
         user: root
         volumes:
           - jenkins_home:/var/jenkins_home
