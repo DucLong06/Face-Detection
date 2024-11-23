@@ -31,8 +31,10 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    sh 'pwd' 
+                    sh 'ls -la'
                     echo 'Building image for deployment..'
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                    dockerImage = docker.build("${REGISTRY}:${BUILD_NUMBER}", "-f ${DOCKER_FILE}/Dockerfile ${DOCKER_CONTEXT}")
                     echo 'Pushing image to dockerhub..'
                     docker.withRegistry( '', registryCredential ) {
                         dockerImage.push()
