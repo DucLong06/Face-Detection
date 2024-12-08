@@ -10,7 +10,6 @@ service:
 
 ingress:
   enabled: true
-  host: app.local 
+  host: app.local
 
-jaeger:
-  port: 16686
+namespace: model-serving
