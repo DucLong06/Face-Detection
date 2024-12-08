@@ -13,6 +13,10 @@ loguru = "^0.7.2"
 gunicorn = "^23.0.0"
 uvicorn = "^0.32.0"
 python-multipart = "^0.0.12"
+opentelemetry-api = "^1.28.2"
+opentelemetry-sdk = "^1.28.2"
+opentelemetry-instrumentation-fastapi = "^0.49b2"
+opentelemetry-exporter-jaeger-thrift = "^1.21.0"
 
 
 [build-system]
