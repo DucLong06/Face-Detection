@@ -15,4 +15,4 @@ spec:
       port: 16686
       protocol: TCP
       targetPort: 16686
-  type: ClusterIP    # hoặc NodePort/LoadBalancer tùy nhu cầu
+  type: ClusterIP  

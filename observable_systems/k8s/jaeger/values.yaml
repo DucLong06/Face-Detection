@@ -1,5 +1,5 @@
 ## https://artifacthub.io/packages/helm/jaegertracing/jaeger
-namespace: model-serving
+namespace: monitoring 
 provisionDataStore:
   cassandra: false
 allInOne:
