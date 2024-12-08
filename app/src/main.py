@@ -12,22 +12,27 @@ import time
 import os
 from opentelemetry import trace
 from opentelemetry.exporter.jaeger.thrift import JaegerExporter
+from opentelemetry.sdk.resources import SERVICE_NAME, Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.trace import get_tracer_provider, set_tracer_provider
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+from loguru import logger
+
 
 # Get configuration from environment variables
-JAEGER_HOST = os.getenv("OTEL_EXPORTER_JAEGER_AGENT_HOST", "localhost")
-JAEGER_PORT = int(os.getenv("OTEL_EXPORTER_JAEGER_AGENT_PORT", "6831"))
+JAEGER_HOST = os.getenv("JAEGER_HOST", "localhost")
+JAEGER_PORT = int(os.getenv("JAEGER_PORT", "6831"))
 
-# Setup basic Jaeger tracing
-provider = TracerProvider()
+set_tracer_provider(
+    TracerProvider(resource=Resource.create({SERVICE_NAME: "face-detection"}))
+)
 jaeger_exporter = JaegerExporter(
     agent_host_name=JAEGER_HOST,
-    agent_port=JAEGER_PORT,
+    agent_port=JAEGER_PORT
 )
-provider.add_span_processor(BatchSpanProcessor(jaeger_exporter))
-trace.set_tracer_provider(provider)
+span_processor = BatchSpanProcessor(jaeger_exporter)
+get_tracer_provider().add_span_processor(span_processor)
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -50,6 +55,12 @@ async def check_health():
     return {'status': 'healthy'}
 
 
+@app.get('/check_jaeger')
+async def check_jaeger():
+    return {'jaeger host': JAEGER_HOST,
+            'jaeger port': JAEGER_PORT}
+
+
 @app.post("/detect/faces/image")
 async def detect_faces_image(file: bytes = File(...)):
     start_time = time.time()
@@ -63,7 +74,7 @@ async def detect_faces_image(file: bytes = File(...)):
     image_bytes = convert_image_to_bytes(annotated_image)
 
     execution_time = time.time() - start_time
-    print(f"Processing time: {execution_time:.2f} seconds")
+    logger.info(f"Processing time: {execution_time:.2f} seconds")
 
     return StreamingResponse(
         content=image_bytes,
@@ -73,7 +84,3 @@ async def detect_faces_image(file: bytes = File(...)):
             "X-Processing-Time": f"{execution_time:.2f}"
         }
     )
-
-if __name__ == "__main__":
-    print(f"Connecting to Jaeger at {JAEGER_HOST}:{JAEGER_PORT}")
-    uvicorn.run(app, host="0.0.0.0", port=8000)

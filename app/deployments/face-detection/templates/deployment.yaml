@@ -19,10 +19,5 @@ spec:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" 
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-          - name: OTEL_EXPORTER_JAEGER_AGENT_HOST
-            value: "jaeger-jaeger.face-detection.svc.cluster.local"
-          - name: OTEL_EXPORTER_JAEGER_AGENT_PORT
-            value: "6831"
           ports:
             - containerPort: 8000
