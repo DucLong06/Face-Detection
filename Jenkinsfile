@@ -34,6 +34,7 @@ pipeline {
                             dockerImage.push()
                             dockerImage.push('latest')
                         }
+
                     }
                 }
             }
