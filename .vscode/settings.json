@@ -1,17 +1,27 @@
 {
     "cSpell.words": [
+        "alertmanager",
         "astype",
+        "cadvisor",
         "dataframe",
+        "datasource",
         "fastapi",
         "fliplr",
         "flipud",
         "fromarray",
+        "healthcheck",
         "imgsz",
+        "Instrumentor",
         "iterrows",
+        "jaegertracing",
         "loguru",
+        "opentelemetry",
+        "rootfs",
+        "semconv",
         "ultralytics",
+        "uvicorn",
         "xyxy",
         "YOLO",
         "yolov"
-    ]
+    ],
 }

@@ -25,21 +25,38 @@ pipeline {
         }
         stage('Build') {
             steps {
-                script {
-                    echo 'Building image for deployment..'
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
-                    echo 'Pushing image to dockerhub..'
-                    docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
-                        dockerImage.push('latest')
+                dir('app') {
+                    script {
+                        echo 'Building image for deployment..'
+                        dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                        echo 'Pushing image to dockerhub..'
+                        docker.withRegistry( '', registryCredential ) {
+                            dockerImage.push()
+                            dockerImage.push('latest')
+                        }
+
                     }
                 }
             }
         }
         stage('Deploy') {
+            agent {
+                kubernetes {
+                    containerTemplate {
+                        name 'helm' // Name of the container to be used for helm upgrade
+                        image 'longhd06/jenkins-docker-helm:latest' // The image containing helm
+                        alwaysPullImage true // Always pull image in case of using the same tag
+                    }
+                }
+            }
             steps {
-                echo 'Deploying models..'
-                echo 'Running a script to trigger pull and start a docker container'
+                dir('app'){
+                    script {
+                        container('helm') {
+                            sh("helm upgrade --install face-detection ./deployments/face-detection --namespace model-serving")
+                        }
+                    }
+                }
             }
         }
     }
