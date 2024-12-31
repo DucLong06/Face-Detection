@@ -17,6 +17,6 @@ output "jenkins_public_ip" {
 
 output "jenkins_ssh_command" {
   description = "SSH command to connect to Jenkins instance"
-  value       = "ssh ${split(":", var.ssh_keys)[0]}@${google_compute_instance.instance_jenkins.network_interface[0].access_config[0].nat_ip}"
+  value       = "ssh ${split(":", var.user_name)[0]}@${google_compute_instance.instance_jenkins.network_interface[0].access_config[0].nat_ip}"
   sensitive   = true
 }

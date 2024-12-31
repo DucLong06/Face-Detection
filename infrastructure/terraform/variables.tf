@@ -33,7 +33,7 @@ variable "instance_name" {
   default     = "jenkins-server"
 }
 
-variable "machine_type_instace" {
+variable "machine_type_instance" {
   description = "Machine type for Jenkins instance"
   type        = string
   default     = "e2-medium"
@@ -57,8 +57,9 @@ variable "firewall_name" {
   default     = "jenkins-firewall"
 }
 
-variable "ssh_keys" {
+variable "user_name" {
   description = "SSH public key for Jenkins instance"
   type        = string
   sensitive   = true
+  default     = "longhd"
 }

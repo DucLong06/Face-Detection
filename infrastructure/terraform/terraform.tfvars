@@ -2,7 +2,7 @@
 credentials = "../credentials/norse-fiber-440714-r4-730a39269897.json"
 
 # Project Settings
-project_id = "norse-fiber-440714"
+project_id = "norse-fiber-440714-r4"
 region     = "us-central1"
 zone       = "us-central1-a"
 
@@ -17,7 +17,3 @@ boot_disk_size = 50
 
 # Network Settings
 firewall_name = "jenkins-firewall"
-
-# SSH Keys
-ssh_private_key_path = "../ssh_keys/jenkins_key"
-ssh_public_key_path = "../ssh_keys/jenkins_key.pub"

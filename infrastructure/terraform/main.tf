@@ -6,7 +6,7 @@ terraform {
       version = "4.80.0" // Provider version
     }
   }
-  required_version = "1.9.8" // Terraform version
+  required_version = "1.10.3" // Terraform version
 }
 
 provider "google" {
@@ -45,7 +45,7 @@ resource "google_container_node_pool" "gke_nodes-face" {
 # Google compute instance
 resource "google_compute_instance" "instance_jenkins" {
   name         = var.instance_name
-  machine_type = var.machine_type_instace
+  machine_type = var.machine_type_instance
   zone         = var.zone
   tags         = [var.firewall_name]
 
@@ -64,14 +64,14 @@ resource "google_compute_instance" "instance_jenkins" {
   }
  
    metadata = {
-    ssh-keys = "${var.ssh_keys}:${file("${path.module}/../ssh_keys/jenkins_key.pub")}"
+    ssh-keys = "${var.user_name}:${file("${path.module}/../ssh_keys/jenkins_key.pub")}"
   }
 
   // save the public key in a local variable for ansible setup jenkins
   provisioner "local-exec" {
     command = <<-EOT
       echo "[jenkins]" > ${path.module}/../ansible/inventory/inventory.ini
-      echo "${self.network_interface[0].access_config[0].nat_ip} ansible_user=${var.ssh_keys} ansible_ssh_private_key_file=${path.module}/../ssh_keys/jenkins_key" >> ${path.module}/../ansible/inventory/inventory.ini
+      echo "${self.network_interface[0].access_config[0].nat_ip} ansible_user=${var.user_name} ansible_ssh_private_key_file=${path.module}/../ssh_keys/jenkins_key" >> ${path.module}/../ansible/inventory/inventory.ini
     EOT
   } 
 }
