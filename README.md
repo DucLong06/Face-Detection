@@ -74,7 +74,7 @@ make plan
 make apply
 ```
 
-3. Configure access:
+1. Configure access:
 ```bash
 gcloud container clusters get-credentials [CLUSTER_NAME] --region [REGION]
 kubectx [CLUSTER_NAME]
